@@ -10,14 +10,15 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Enhanced splash effect
+        // Enhanced splash effect with random colors
         const homeSection = document.querySelector('#home');
         if (homeSection) {
             let isInHomeSection = false;
             let lastMouseX = 0;
             let lastMouseY = 0;
             let lastSplashTime = 0;
-            const splashInterval = 30; // Reduced interval for more frequent splashes
+            const splashInterval = 80; // Increased interval for slower effect
+            let currentHue = Math.random() * 360; // Random starting hue
 
             // Create splash container if it doesn't exist
             let splashContainer = document.querySelector('.splash-container');
@@ -26,6 +27,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 splashContainer.className = 'splash-container';
                 homeSection.appendChild(splashContainer);
             }
+
+            // Function to get smooth random color
+            const getNextColor = () => {
+                // Smoothly transition to a new random hue
+                const targetHue = (currentHue + (Math.random() * 60 - 30)) % 360;
+                currentHue = targetHue;
+                return currentHue;
+            };
 
             const createSplashEffect = (e) => {
                 if (!isInHomeSection) return;
@@ -49,22 +58,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 splash.className = 'splash';
                 
                 // Size based on movement speed
-                const size = 150 + (speed * 3);
+                const size = 200 + (speed * 2); // Increased base size
                 splash.style.width = `${size}px`;
                 splash.style.height = `${size}px`;
                 splash.style.left = `${x - size/2}px`;
                 splash.style.top = `${y - size/2}px`;
 
-                // Dynamic color based on position and speed
-                const hue = ((x / rect.width) * 20 + 200) % 360; // Blue range
-                const saturation = 70 + (normalizedSpeed * 30);
-                const lightness = 50 + (normalizedSpeed * 20);
+                // Get smooth random color
+                const hue = getNextColor();
+                const saturation = 70 + (normalizedSpeed * 20);
+                const lightness = 50 + (normalizedSpeed * 10);
                 
                 splash.style.background = `
                     radial-gradient(circle at center,
-                        hsla(${hue}, ${saturation}%, ${lightness}%, 0.8) 0%,
-                        hsla(${hue}, ${saturation}%, ${lightness - 10}%, 0.6) 25%,
-                        hsla(${hue}, ${saturation - 10}%, ${lightness - 20}%, 0.4) 50%,
+                        hsla(${hue}, ${saturation}%, ${lightness}%, 0.6) 0%,
+                        hsla(${hue + 30}, ${saturation}%, ${lightness - 10}%, 0.4) 25%,
+                        hsla(${hue + 60}, ${saturation - 10}%, ${lightness - 20}%, 0.2) 50%,
                         transparent 70%
                     )
                 `;
@@ -72,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 splashContainer.appendChild(splash);
 
                 // Create particles
-                const particleCount = Math.min(Math.floor(speed / 3), 12);
+                const particleCount = Math.min(Math.floor(speed / 5), 8);
                 for (let i = 0; i < particleCount; i++) {
                     const particle = document.createElement('div');
                     particle.className = 'splash-particle';
@@ -87,16 +96,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     particle.style.top = `${particleY}px`;
                     
                     // Random movement direction influenced by cursor movement
-                    const particleDx = Math.cos(angle) + (dx / 50);
-                    const particleDy = Math.sin(angle) + (dy / 50);
+                    const particleDx = Math.cos(angle) + (dx / 100);
+                    const particleDy = Math.sin(angle) + (dy / 100);
                     particle.style.setProperty('--dx', particleDx);
                     particle.style.setProperty('--dy', particleDy);
                     
                     // Dynamic color for particles
+                    const particleHue = hue + Math.random() * 30;
                     particle.style.background = `
                         radial-gradient(circle at center,
-                            hsla(${hue}, ${saturation}%, ${lightness}%, 1) 0%,
-                            hsla(${hue}, ${saturation}%, ${lightness - 10}%, 0.8) 50%,
+                            hsla(${particleHue}, ${saturation}%, ${lightness}%, 0.8) 0%,
+                            hsla(${particleHue}, ${saturation}%, ${lightness - 10}%, 0.6) 50%,
                             transparent 100%
                         )
                     `;
@@ -145,16 +155,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Create a larger splash on click
                 const splash = document.createElement('div');
                 splash.className = 'splash';
-                const size = 300;
+                const size = 400; // Increased size for click effect
                 splash.style.width = `${size}px`;
                 splash.style.height = `${size}px`;
                 splash.style.left = `${x - size/2}px`;
                 splash.style.top = `${y - size/2}px`;
+
+                const hue = getNextColor();
                 splash.style.background = `
                     radial-gradient(circle at center,
-                        rgba(52, 152, 219, 0.9) 0%,
-                        rgba(41, 128, 185, 0.7) 25%,
-                        rgba(44, 62, 80, 0.5) 50%,
+                        hsla(${hue}, 70%, 60%, 0.8) 0%,
+                        hsla(${hue + 30}, 70%, 50%, 0.6) 25%,
+                        hsla(${hue + 60}, 60%, 40%, 0.4) 50%,
                         transparent 70%
                     )
                 `;
@@ -162,17 +174,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 splash.addEventListener('animationend', () => splash.remove());
 
                 // Create more particles for click effect
-                for (let i = 0; i < 20; i++) {
+                for (let i = 0; i < 16; i++) {
                     const particle = document.createElement('div');
                     particle.className = 'splash-particle';
-                    const angle = (i / 20) * Math.PI * 2;
-                    const distance = Math.random() * 60;
+                    const angle = (i / 16) * Math.PI * 2;
+                    const distance = Math.random() * 80;
                     const particleX = x + Math.cos(angle) * distance;
                     const particleY = y + Math.sin(angle) * distance;
                     particle.style.left = `${particleX}px`;
                     particle.style.top = `${particleY}px`;
                     particle.style.setProperty('--dx', Math.cos(angle) * 2);
                     particle.style.setProperty('--dy', Math.sin(angle) * 2);
+
+                    const particleHue = hue + Math.random() * 60;
+                    particle.style.background = `
+                        radial-gradient(circle at center,
+                            hsla(${particleHue}, 70%, 60%, 0.9) 0%,
+                            hsla(${particleHue}, 70%, 50%, 0.7) 50%,
+                            transparent 100%
+                        )
+                    `;
+
                     splashContainer.appendChild(particle);
                     particle.addEventListener('animationend', () => particle.remove());
                 }
