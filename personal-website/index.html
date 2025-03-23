@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wail Ameur - Personal Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            DEFAULT: '#2C3E50',
+                            light: '#34495E',
+                            dark: '#1A252F'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .cursor-effect {
+            pointer-events: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(
+                600px circle at var(--mouse-x) var(--mouse-y),
+                rgba(44, 62, 80, 0.15),
+                transparent 40%
+            );
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .home-section {
+            position: relative;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
+            overflow: hidden;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #2C3E50, #34495E, #2C3E50);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 4s linear infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            height: 400px;
+            border-radius: 20px;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .project-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(44, 62, 80, 0.95) 0%, rgba(44, 62, 80, 0.8) 50%, rgba(44, 62, 80, 0) 100%);
+            color: white;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .project-card:hover .project-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.1);
+        }
+
+        .tag {
+            background: rgba(44, 62, 80, 0.3);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+        }
+
+        .min-h-screen-nav {
+            min-height: calc(100vh - 4rem);
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Header/Navigation -->
+    <header class="fixed w-full bg-white/80 backdrop-blur-sm shadow-sm z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold text-primary">WA.</a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-primary transition-colors">Home</a>
+                    <a href="#about" class="text-gray-600 hover:text-primary transition-colors">About</a>
+                    <a href="#projects" class="text-gray-600 hover:text-primary transition-colors">Projects</a>
+                    <a href="#contact" class="text-gray-600 hover:text-primary transition-colors">Contact</a>
+                </div>
+                <button class="md:hidden text-gray-600" id="mobile-menu-button">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="flex flex-col space-y-4 mt-4 pb-4">
+                    <a href="#home" class="text-gray-600 hover:text-primary transition-colors">Home</a>
+                    <a href="#about" class="text-gray-600 hover:text-primary transition-colors">About</a>
+                    <a href="#projects" class="text-gray-600 hover:text-primary transition-colors">Projects</a>
+                    <a href="#contact" class="text-gray-600 hover:text-primary transition-colors">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="home-section min-h-screen-nav pt-24 flex items-center">
+        <div class="cursor-effect"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col items-center text-center">
+                <h1 class="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
+                    Hello, I'm <span class="gradient-text">Wail Ameur</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl leading-relaxed">
+                    A passionate Data Science & Fintech Master's student with a background in Computer Sciences. 
+                    Building innovative solutions at the intersection of technology and finance.
+                </p>
+                <a href="cv.pdf" download class="group bg-primary text-white px-8 py-4 rounded-full hover:bg-primary-dark transition-all transform hover:scale-105 shadow-lg hover:shadow-xl">
+                    Download CV 
+                    <i class="fas fa-download ml-2 group-hover:translate-y-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-16 text-primary">About Me</h2>
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-semibold text-primary">Background</h3>
+                        <p class="text-gray-600 text-lg leading-relaxed">
+                            At 21 years old, I'm pursuing my Master's in Data Science and Fintech, building upon my strong foundation in Computer Sciences. My passion lies in creating innovative solutions that bridge technology and finance.
+                        </p>
+                    </div>
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-semibold text-primary">Education</h3>
+                        <ul class="space-y-4 text-gray-600 text-lg">
+                            <li class="flex items-start">
+                                <i class="fas fa-graduation-cap mt-1 mr-3 text-primary"></i>
+                                <div>
+                                    <span class="font-medium block">Master's in Data Science & Fintech</span>
+                                    Currently enrolled - First Year
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-graduation-cap mt-1 mr-3 text-primary"></i>
+                                <div>
+                                    <span class="font-medium block">Bachelor's in Computer Sciences</span>
+                                    Successfully completed
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-16 text-primary">My Projects</h2>
+            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <!-- SynapsX Project -->
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800" alt="SynapsX Trading Platform" class="project-image">
+                    <div class="project-content">
+                        <h3 class="text-3xl font-bold mb-4">SynapsX</h3>
+                        <p class="text-gray-200 mb-6 text-lg">
+                            A sophisticated trading website that provides users with powerful tools and insights for making informed trading decisions.
+                        </p>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="tag px-4 py-2 rounded-full text-sm">Trading</span>
+                            <span class="tag px-4 py-2 rounded-full text-sm">Web Development</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cosmic Adventures Project -->
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1614732414444-096e5f1122d5?auto=format&fit=crop&w=800" alt="Cosmic Adventures Game" class="project-image">
+                    <div class="project-content">
+                        <h3 class="text-3xl font-bold mb-4">Cosmic Adventures</h3>
+                        <p class="text-gray-200 mb-6 text-lg">
+                            An engaging game prototype that takes players on an exciting journey through space, featuring unique gameplay mechanics and immersive experiences.
+                        </p>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="tag px-4 py-2 rounded-full text-sm">Game Development</span>
+                            <span class="tag px-4 py-2 rounded-full text-sm">Prototype</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-16 text-primary">Get In Touch</h2>
+            <div class="flex justify-center space-x-8">
+                <a href="#" class="text-gray-600 hover:text-primary transition-all transform hover:scale-110">
+                    <i class="fab fa-github text-4xl"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-primary transition-all transform hover:scale-110">
+                    <i class="fab fa-linkedin text-4xl"></i>
+                </a>
+                <a href="mailto:your.email@example.com" class="text-gray-600 hover:text-primary transition-all transform hover:scale-110">
+                    <i class="fas fa-envelope text-4xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary-dark text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2024 Wail Ameur. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
