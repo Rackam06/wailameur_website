@@ -131,139 +131,107 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialize scroll reveal
         initScrollReveal();
 
-        // Enhanced splash effect with random colors (keep this untouched behaviorally)
+        // Cosmic shooting stars animation
         const homeSection = document.querySelector('#home');
         if (homeSection) {
             let isInHomeSection = false;
             let lastMouseX = 0;
             let lastMouseY = 0;
-            let lastSplashTime = 0;
-            const splashInterval = 120;
+            let lastStarTime = 0;
+            const starInterval = 80; // Faster for more responsive stars
             let velocityX = 0;
             let velocityY = 0;
 
-            // Create splash container
-            let splashContainer = document.querySelector('.splash-container');
-            if (!splashContainer) {
-                splashContainer = document.createElement('div');
-                splashContainer.className = 'splash-container';
-                homeSection.appendChild(splashContainer);
+            // Create stars container
+            let starsContainer = document.querySelector('.stars-container');
+            if (!starsContainer) {
+                starsContainer = document.createElement('div');
+                starsContainer.className = 'stars-container';
+                homeSection.appendChild(starsContainer);
             }
 
-            // Function to generate random color
-            const getRandomColor = () => {
-                // Array of pleasant color ranges [hueStart, hueEnd]
-                const colorRanges = [
-                    [0, 60],    // Red to Yellow
-                    [180, 240], // Cyan to Blue
-                    [270, 300], // Purple
-                    [120, 150], // Green to Teal
-                    [20, 40],   // Orange
-                    [280, 320]  // Pink to Purple
-                ];
-                
-                const range = colorRanges[Math.floor(Math.random() * colorRanges.length)];
-                const hue = range[0] + Math.random() * (range[1] - range[0]);
-                const saturation = 60 + Math.random() * 20; // 60-80%
-                const lightness = 50 + Math.random() * 20;  // 50-70%
-                
-                return {
-                    hue,
-                    saturation,
-                    lightness
-                };
-            };
-
-            // Smooth movement tracking
+            // Smooth movement tracking for velocity-based effects
             const smoothMovement = (currentX, currentY) => {
                 const dx = currentX - lastMouseX;
                 const dy = currentY - lastMouseY;
                 
-                velocityX = velocityX * 0.8 + dx * 0.2;
-                velocityY = velocityY * 0.8 + dy * 0.2;
+                velocityX = velocityX * 0.7 + dx * 0.3;
+                velocityY = velocityY * 0.7 + dy * 0.3;
 
                 return {
                     speed: Math.sqrt(velocityX * velocityX + velocityY * velocityY),
+                    angle: Math.atan2(velocityY, velocityX),
                     dx: velocityX,
                     dy: velocityY
                 };
             };
 
-            const createSplashEffect = (e) => {
+            const createShootingStar = (e) => {
                 if (!isInHomeSection) return;
 
                 const now = Date.now();
-                if (now - lastSplashTime < splashInterval) return;
-                lastSplashTime = now;
+                if (now - lastStarTime < starInterval) return;
+                lastStarTime = now;
 
                 const rect = homeSection.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
 
                 const movement = smoothMovement(e.clientX, e.clientY);
-                const normalizedSpeed = Math.min(movement.speed, 50) / 50;
+                const normalizedSpeed = Math.min(movement.speed, 30) / 30;
 
-                // Create main splash
-                const splash = document.createElement('div');
-                splash.className = 'splash';
+                // Create shooting star trail
+                const star = document.createElement('div');
+                star.className = 'shooting-star';
                 
-                const size = 200 + (normalizedSpeed * 100);
-                splash.style.width = `${size}px`;
-                splash.style.height = `${size}px`;
-                splash.style.left = `${x - size/2}px`;
-                splash.style.top = `${y - size/2}px`;
-
-                // Get random color
-                const color = getRandomColor();
+                // Dynamic length based on speed
+                const length = 60 + (normalizedSpeed * 120);
+                const height = 2 + (normalizedSpeed * 2);
                 
-                splash.style.background = `
-                    radial-gradient(circle at center,
-                        hsla(${color.hue}, ${color.saturation}%, ${color.lightness}%, 0.4) 0%,
-                        hsla(${color.hue}, ${color.saturation}%, ${color.lightness - 10}%, 0.3) 25%,
-                        hsla(${color.hue}, ${color.saturation - 10}%, ${color.lightness - 20}%, 0.2) 50%,
-                        transparent 70%
-                    )
-                `;
+                star.style.width = `${length}px`;
+                star.style.height = `${height}px`;
+                star.style.left = `${x}px`;
+                star.style.top = `${y}px`;
+                
+                // Set angle and distance for animation
+                const angle = movement.angle + (Math.random() * 0.4 - 0.2); // Small random variation
+                const distance = 200 + (normalizedSpeed * 300);
+                
+                star.style.setProperty('--angle', `${angle}rad`);
+                star.style.setProperty('--distance', `${distance}px`);
 
-                splashContainer.appendChild(splash);
+                starsContainer.appendChild(star);
 
-                // Create particles only if movement is significant
-                if (normalizedSpeed > 0.2) {
-                    const particleCount = Math.min(Math.floor(normalizedSpeed * 6), 6);
+                // Create comet particles for more dynamic movement
+                if (normalizedSpeed > 0.15) {
+                    const particleCount = Math.min(Math.floor(normalizedSpeed * 4) + 2, 8);
                     for (let i = 0; i < particleCount; i++) {
-                        const particle = document.createElement('div');
-                        particle.className = 'splash-particle';
-                        
-                        const angle = (i / particleCount) * Math.PI * 2;
-                        const distance = Math.random() * 30;
-                        const particleX = x + Math.cos(angle) * distance;
-                        const particleY = y + Math.sin(angle) * distance;
-                        
-                        particle.style.left = `${particleX}px`;
-                        particle.style.top = `${particleY}px`;
-                        
-                        const particleDx = Math.cos(angle) + (movement.dx / 100);
-                        const particleDy = Math.sin(angle) + (movement.dy / 100);
-                        particle.style.setProperty('--dx', particleDx);
-                        particle.style.setProperty('--dy', particleDy);
-                        
-                        // Slightly vary particle color
-                        const particleHue = color.hue + (Math.random() * 30 - 15);
-                        particle.style.background = `
-                            radial-gradient(circle at center,
-                                hsla(${particleHue}, ${color.saturation}%, ${color.lightness}%, 0.6) 0%,
-                                hsla(${particleHue}, ${color.saturation}%, ${color.lightness - 10}%, 0.4) 50%,
-                                transparent 100%
-                            )
-                        `;
-                        
-                        splashContainer.appendChild(particle);
-                        particle.addEventListener('animationend', () => particle.remove());
+                        setTimeout(() => {
+                            const particle = document.createElement('div');
+                            particle.className = 'comet-particle';
+                            
+                            // Spread particles along the trail
+                            const trailOffset = (i / particleCount) * length * 0.3;
+                            const particleX = x - Math.cos(angle) * trailOffset + (Math.random() * 20 - 10);
+                            const particleY = y - Math.sin(angle) * trailOffset + (Math.random() * 20 - 10);
+                            
+                            particle.style.left = `${particleX}px`;
+                            particle.style.top = `${particleY}px`;
+                            
+                            // Random particle movement
+                            const px = (Math.random() - 0.5) * 2;
+                            const py = (Math.random() - 0.5) * 2;
+                            particle.style.setProperty('--px', px);
+                            particle.style.setProperty('--py', py);
+                            
+                            starsContainer.appendChild(particle);
+                            particle.addEventListener('animationend', () => particle.remove());
+                        }, i * 50); // Stagger particle creation
                     }
                 }
 
-                // Cleanup
-                splash.addEventListener('animationend', () => splash.remove());
+                // Cleanup star trail
+                star.addEventListener('animationend', () => star.remove());
 
                 // Update position tracking
                 lastMouseX = e.clientX;
@@ -281,66 +249,58 @@ document.addEventListener('DOMContentLoaded', function() {
                 isInHomeSection = false;
             });
 
-            // Throttled mousemove with RAF
+            // Throttled mousemove with RAF for smooth performance
             let animationFrame;
             document.addEventListener('mousemove', (e) => {
                 if (animationFrame) {
                     cancelAnimationFrame(animationFrame);
                 }
                 animationFrame = requestAnimationFrame(() => {
-                    createSplashEffect(e);
+                    createShootingStar(e);
                 });
             });
 
-            // Click effect with random colors
+            // Click effect - create a burst of shooting stars
             homeSection.addEventListener('click', (e) => {
                 const rect = homeSection.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
 
-                const splash = document.createElement('div');
-                splash.className = 'splash';
-                const size = 400;
-                splash.style.width = `${size}px`;
-                splash.style.height = `${size}px`;
-                splash.style.left = `${x - size/2}px`;
-                splash.style.top = `${y - size/2}px`;
+                // Create multiple shooting stars in different directions
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        const star = document.createElement('div');
+                        star.className = 'shooting-star';
+                        
+                        const angle = (i / 8) * Math.PI * 2 + (Math.random() * 0.5 - 0.25);
+                        const length = 80 + Math.random() * 60;
+                        const distance = 250 + Math.random() * 200;
+                        
+                        star.style.width = `${length}px`;
+                        star.style.height = '3px';
+                        star.style.left = `${x}px`;
+                        star.style.top = `${y}px`;
+                        star.style.setProperty('--angle', `${angle}rad`);
+                        star.style.setProperty('--distance', `${distance}px`);
+                        
+                        starsContainer.appendChild(star);
+                        star.addEventListener('animationend', () => star.remove());
 
-                const color = getRandomColor();
-                splash.style.background = `
-                    radial-gradient(circle at center,
-                        hsla(${color.hue}, ${color.saturation}%, ${color.lightness}%, 0.6) 0%,
-                        hsla(${color.hue}, ${color.saturation}%, ${color.lightness - 10}%, 0.4) 25%,
-                        hsla(${color.hue}, ${color.saturation - 10}%, ${color.lightness - 20}%, 0.2) 50%,
-                        transparent 70%
-                    )
-                `;
-                splashContainer.appendChild(splash);
-                splash.addEventListener('animationend', () => splash.remove());
-
-                for (let i = 0; i < 12; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'splash-particle';
-                    const angle = (i / 12) * Math.PI * 2;
-                    const distance = Math.random() * 60;
-                    const particleX = x + Math.cos(angle) * distance;
-                    const particleY = y + Math.sin(angle) * distance;
-                    particle.style.left = `${particleX}px`;
-                    particle.style.top = `${particleY}px`;
-                    particle.style.setProperty('--dx', Math.cos(angle) * 1.5);
-                    particle.style.setProperty('--dy', Math.sin(angle) * 1.5);
-
-                    const particleHue = color.hue + (Math.random() * 30 - 15);
-                    particle.style.background = `
-                        radial-gradient(circle at center,
-                            hsla(${particleHue}, ${color.saturation}%, ${color.lightness}%, 0.7) 0%,
-                            hsla(${particleHue}, ${color.saturation}%, ${color.lightness - 10}%, 0.5) 50%,
-                            transparent 100%
-                        )
-                    `;
-
-                    splashContainer.appendChild(particle);
-                    particle.addEventListener('animationend', () => particle.remove());
+                        // Add particles for each star
+                        for (let j = 0; j < 3; j++) {
+                            setTimeout(() => {
+                                const particle = document.createElement('div');
+                                particle.className = 'comet-particle';
+                                particle.style.left = `${x + Math.random() * 20 - 10}px`;
+                                particle.style.top = `${y + Math.random() * 20 - 10}px`;
+                                particle.style.setProperty('--px', Math.cos(angle) * 0.8);
+                                particle.style.setProperty('--py', Math.sin(angle) * 0.8);
+                                
+                                starsContainer.appendChild(particle);
+                                particle.addEventListener('animationend', () => particle.remove());
+                            }, j * 50);
+                        }
+                    }, i * 80);
                 }
             });
         }

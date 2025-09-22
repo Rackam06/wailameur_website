@@ -131,8 +131,8 @@
             box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.4), 0 8px 16px -4px rgba(0, 0, 0, 0.25);
         }
 
-        /* Keep the mouse animation components */
-        .splash-container {
+        /* Stars and Shooting Stars Animation */
+        .stars-container {
             position: absolute;
             top: 0;
             left: 0;
@@ -143,53 +143,118 @@
             z-index: 1;
         }
 
-        .splash {
+        /* Static background stars */
+        .stars-container::before {
+            content: '';
             position: absolute;
-            mix-blend-mode: soft-light;
-            pointer-events: none;
-            animation: splash-animation 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            border-radius: 50%;
-            filter: blur(12px);
-            transform-origin: center;
-            opacity: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,0.4), transparent),
+                radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.5), transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 160px 30px, rgba(255,255,255,0.4), transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: twinkle 4s infinite ease-in-out;
         }
 
-        @keyframes splash-animation {
+        .dark .stars-container::before {
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1px 1px at 160px 30px, rgba(255,255,255,0.8), transparent);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Shooting star trails */
+        .shooting-star {
+            position: absolute;
+            background: linear-gradient(90deg, 
+                rgba(59, 130, 246, 0) 0%,
+                rgba(59, 130, 246, 0.4) 20%,
+                rgba(147, 197, 253, 0.8) 60%,
+                rgba(255, 255, 255, 1) 100%
+            );
+            border-radius: 2px;
+            pointer-events: none;
+            animation: shooting-star 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            box-shadow: 
+                0 0 8px rgba(59, 130, 246, 0.6),
+                0 0 16px rgba(147, 197, 253, 0.4),
+                0 0 24px rgba(255, 255, 255, 0.3);
+        }
+
+        .dark .shooting-star {
+            background: linear-gradient(90deg, 
+                rgba(59, 130, 246, 0) 0%,
+                rgba(59, 130, 246, 0.6) 20%,
+                rgba(147, 197, 253, 0.9) 60%,
+                rgba(255, 255, 255, 1) 100%
+            );
+            box-shadow: 
+                0 0 12px rgba(59, 130, 246, 0.8),
+                0 0 24px rgba(147, 197, 253, 0.6),
+                0 0 36px rgba(255, 255, 255, 0.4);
+        }
+
+        @keyframes shooting-star {
             0% {
-                transform: scale(0.3);
+                transform: scale(0) rotate(var(--angle));
                 opacity: 0;
             }
-            25% {
-                opacity: 0.8;
+            10% {
+                transform: scale(1) rotate(var(--angle));
+                opacity: 1;
             }
             100% {
-                transform: scale(2.5);
+                transform: scale(0.2) rotate(var(--angle)) translateX(var(--distance));
                 opacity: 0;
             }
         }
 
-        .splash-particle {
+        /* Comet particles */
+        .comet-particle {
             position: absolute;
-            width: 12px;
-            height: 12px;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, 
+                rgba(255, 255, 255, 1) 0%,
+                rgba(147, 197, 253, 0.8) 50%,
+                transparent 100%
+            );
             border-radius: 50%;
-            animation: particle-animation 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            filter: blur(3px);
-            opacity: 0;
+            animation: comet-particle 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            box-shadow: 0 0 8px rgba(147, 197, 253, 0.6);
         }
 
-        @keyframes particle-animation {
+        .dark .comet-particle {
+            background: radial-gradient(circle, 
+                rgba(255, 255, 255, 1) 0%,
+                rgba(147, 197, 253, 1) 50%,
+                transparent 100%
+            );
+            box-shadow: 0 0 12px rgba(147, 197, 253, 0.8);
+        }
+
+        @keyframes comet-particle {
             0% {
                 transform: scale(1) translate(0, 0);
-                opacity: 0;
-            }
-            25% {
-                opacity: 0.8;
+                opacity: 1;
             }
             100% {
                 transform: scale(0) translate(
-                    calc(var(--dx) * 150px),
-                    calc(var(--dy) * 150px)
+                    calc(var(--px) * 80px),
+                    calc(var(--py) * 80px)
                 );
                 opacity: 0;
             }
@@ -620,8 +685,8 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen-nav pt-20 flex items-center justify-center relative bg-gradient-to-br from-apple-gray-50 via-white to-blue-50 dark:from-apple-gray-900 dark:via-apple-gray-800 dark:to-indigo-950 parallax-bg">
-        <div class="splash-container"></div>
+    <section id="home" class="min-h-screen pt-0 flex items-center justify-center relative bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950 overflow-hidden">
+        <div class="stars-container"></div>
         <div class="container mx-auto px-6 relative z-10">
             <div class="flex flex-col items-center text-center max-w-4xl mx-auto">
                 <div class="photo-frame mb-12 reveal">
@@ -632,7 +697,7 @@
                 <h1 class="text-6xl md:text-8xl font-light text-apple-gray-900 dark:text-white mb-6 tracking-tight leading-none hero-title">
                     Hello, I'm <span class="gradient-text font-medium">Wail Ameur</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-apple-gray-600 dark:text-apple-gray-400 mb-16 max-w-3xl leading-relaxed font-normal reveal reveal-delay-1">
+                <p class="text-xl md:text-2xl text-apple-gray-600 dark:text-apple-gray-300 mb-16 max-w-3xl leading-relaxed font-normal reveal reveal-delay-1">
                     A passionate Data Science & Fintech MSc student with a strong will to build innovative products.
                 </p>
                 <a href="attachments/Wail_Ameur_Resume.pdf" download="Wail_Ameur_Resume.pdf" class="apple-button inline-flex items-center gap-3 reveal reveal-delay-2">
