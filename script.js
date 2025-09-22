@@ -108,6 +108,29 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialize nav state
         header.classList.add('nav-visible');
 
+        // Apple-style scroll reveal animations
+        const initScrollReveal = () => {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all elements with .reveal class
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        };
+
+        // Initialize scroll reveal
+        initScrollReveal();
+
         // Enhanced splash effect with random colors (keep this untouched behaviorally)
         const homeSection = document.querySelector('#home');
         if (homeSection) {

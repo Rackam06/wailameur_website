@@ -80,26 +80,28 @@
             background: rgba(28, 28, 30, 0.8);
         }
 
-        /* Apple-style cards */
+        /* Apple-style cards - UPDATED */
         .apple-card {
             background: #FFFFFF;
             border-radius: 24px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .dark .apple-card {
             background: #1C1C1E;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .apple-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.04);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 16px 32px -4px rgba(0, 0, 0, 0.1), 0 8px 16px -2px rgba(0, 0, 0, 0.06);
         }
 
         .dark .apple-card:hover {
-            box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.4), 0 4px 8px -2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 16px 32px -4px rgba(0, 0, 0, 0.6), 0 8px 16px -2px rgba(0, 0, 0, 0.4);
         }
 
         /* Apple-style photo frame */
@@ -422,6 +424,163 @@
         .min-h-screen-nav {
             min-height: calc(100vh - 4rem);
         }
+
+        /* Apple-style scroll reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* Apple-style section separators */
+        .section-separator {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+            margin: 0 auto;
+            width: 80%;
+        }
+
+        .dark .section-separator {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+
+        /* Enhanced Apple button with haptic-like feedback */
+        .apple-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 32px;
+            padding: 16px 32px;
+            font-weight: 500;
+            font-size: 17px;
+            line-height: 1.2;
+            letter-spacing: -0.022em;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 1px 3px rgba(0, 122, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .apple-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease-out, height 0.6s ease-out;
+        }
+
+        .apple-button:hover {
+            background: #0051D5;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 122, 255, 0.4);
+        }
+
+        .apple-button:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.5);
+        }
+
+        .apple-button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Enhanced Apple cards with better separations */
+        .apple-card {
+            background: #FFFFFF;
+            border-radius: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .apple-card {
+            background: #1C1C1E;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .apple-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 16px 32px -4px rgba(0, 0, 0, 0.1), 0 8px 16px -2px rgba(0, 0, 0, 0.06);
+        }
+
+        .dark .apple-card:hover {
+            box-shadow: 0 16px 32px -4px rgba(0, 0, 0, 0.6), 0 8px 16px -2px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Apple-style floating action for social icons */
+        .social-icon {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .social-icon::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            background: currentColor;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: -1;
+        }
+
+        .social-icon:hover::after {
+            opacity: 0.1;
+            transform: scale(1);
+        }
+
+        .social-icon:active {
+            transform: scale(0.95);
+        }
+
+        /* Enhanced dark mode section backgrounds */
+        .dark-section-alt {
+            background: #1C1C1E;
+        }
+
+        .dark-section-primary {
+            background: #000000;
+        }
+
+        /* Apple-style hero title animation */
+        .hero-title {
+            animation: hero-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes hero-fade-in {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Parallax scroll effect for hero */
+        .parallax-bg {
+            will-change: transform;
+            transition: transform 0.1s ease-out;
+        }
     </style>
 </head>
 <body class="font-sf-pro bg-apple-gray-50 dark:bg-apple-gray-900 text-apple-gray-900 dark:text-apple-gray-100">
@@ -461,22 +620,22 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen-nav pt-20 flex items-center relative bg-gradient-to-br from-apple-gray-50 via-white to-blue-50 dark:from-apple-gray-900 dark:via-apple-gray-800 dark:to-indigo-950">
+    <section id="home" class="min-h-screen-nav pt-20 flex items-center justify-center relative bg-gradient-to-br from-apple-gray-50 via-white to-blue-50 dark:from-apple-gray-900 dark:via-apple-gray-800 dark:to-indigo-950 parallax-bg">
         <div class="splash-container"></div>
         <div class="container mx-auto px-6 relative z-10">
             <div class="flex flex-col items-center text-center max-w-4xl mx-auto">
-                <div class="photo-frame mb-12">
+                <div class="photo-frame mb-12 reveal">
                     <div class="photo-placeholder">
                         <img src="images/wailameur_portrait.png" alt="Wail Ameur" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                 </div>
-                <h1 class="text-6xl md:text-8xl font-light text-apple-gray-900 dark:text-white mb-6 tracking-tight leading-none">
+                <h1 class="text-6xl md:text-8xl font-light text-apple-gray-900 dark:text-white mb-6 tracking-tight leading-none hero-title">
                     Hello, I'm <span class="gradient-text font-medium">Wail Ameur</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-apple-gray-600 dark:text-apple-gray-400 mb-16 max-w-3xl leading-relaxed font-normal">
+                <p class="text-xl md:text-2xl text-apple-gray-600 dark:text-apple-gray-400 mb-16 max-w-3xl leading-relaxed font-normal reveal reveal-delay-1">
                     A passionate Data Science & Fintech MSc student with a strong will to build innovative products.
                 </p>
-                <a href="attachments/Wail_Ameur_Resume.pdf" download="Wail_Ameur_Resume.pdf" class="apple-button inline-flex items-center gap-3">
+                <a href="attachments/Wail_Ameur_Resume.pdf" download="Wail_Ameur_Resume.pdf" class="apple-button inline-flex items-center gap-3 reveal reveal-delay-2">
                     Download Resume
                     <i class="fas fa-download text-sm"></i>
                 </a>
@@ -485,18 +644,18 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-32 bg-apple-gray-100 dark:bg-apple-gray-900">
+    <section id="about" class="py-32 bg-apple-gray-100 dark:bg-black">
         <div class="container mx-auto px-6">
-            <h2 class="text-6xl md:text-7xl font-light text-center mb-24 text-apple-gray-900 dark:text-white tracking-tight">About Me</h2>
+            <h2 class="text-6xl md:text-7xl font-light text-center mb-24 text-apple-gray-900 dark:text-white tracking-tight reveal">About Me</h2>
             <div class="max-w-5xl mx-auto">
                 <div class="grid md:grid-cols-2 gap-8">
-                    <div class="apple-card p-8 space-y-6">
+                    <div class="apple-card p-8 space-y-6 reveal reveal-delay-1">
                         <h3 class="text-3xl font-medium text-apple-gray-900 dark:text-white">Background</h3>
                         <p class="text-apple-gray-600 dark:text-apple-gray-400 text-lg leading-relaxed font-normal">
                             At 21 years old, I'm pursuing my Master's in Data Science and Fintech, building upon my strong foundation in Computer Sciences. My passion lies in creating innovative AI-powered solutions.
                         </p>
                     </div>
-                    <div class="apple-card p-8 space-y-6">
+                    <div class="apple-card p-8 space-y-6 reveal reveal-delay-2">
                         <h3 class="text-3xl font-medium text-apple-gray-900 dark:text-white">Education</h3>
                         <ul class="space-y-6 text-apple-gray-600 dark:text-apple-gray-400 text-lg">
                             <li class="flex items-start gap-4">
@@ -518,15 +677,16 @@
                 </div>
             </div>
         </div>
+        <div class="section-separator mt-16"></div>
     </section>
 
     <!-- Projects Section -->
     <section id="projects" class="py-32 bg-white dark:bg-apple-gray-900">
         <div class="container mx-auto px-6">
-            <h2 class="text-6xl md:text-7xl font-light text-center mb-24 text-apple-gray-900 dark:text-white tracking-tight">My Projects</h2>
+            <h2 class="text-6xl md:text-7xl font-light text-center mb-24 text-apple-gray-900 dark:text-white tracking-tight reveal">My Projects</h2>
             <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
                 <!-- DraftsLab Project -->
-                <div class="project-card">
+                <div class="project-card reveal reveal-delay-1">
                     <span class="finished-badge">V1</span>
                     <img src="images/draftslab_screen.png" alt="DraftsLab Screenwriting Platform" class="project-image">
                     <div class="project-content">
@@ -544,7 +704,7 @@
                 </div>
 
                 <!-- SynapsX Project -->
-                <div class="project-card">
+                <div class="project-card reveal reveal-delay-2">
                     <span class="development-badge">In Development</span>
                     <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800" alt="SynapsX Trading Platform" class="project-image">
                     <div class="project-content">
@@ -560,7 +720,7 @@
                 </div>
 
                 <!-- Cosmic Adventures Project -->
-                <div class="project-card">
+                <div class="project-card reveal reveal-delay-3">
                     <span class="alpha-badge">Alpha</span>
                     <img src="https://images.unsplash.com/photo-1614732414444-096e5f1122d5?auto=format&fit=crop&w=800" alt="Cosmic Adventures Game" class="project-image">
                     <div class="project-content">
@@ -578,13 +738,14 @@
                 </div>
             </div>
         </div>
+        <div class="section-separator mt-16"></div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-32 bg-apple-gray-100 dark:bg-apple-gray-900">
+    <section id="contact" class="py-32 bg-apple-gray-50 dark:bg-black">
         <div class="container mx-auto px-6">
-            <h2 class="text-6xl md:text-7xl font-light text-center mb-24 text-apple-gray-900 dark:text-white tracking-tight">Get In Touch</h2>
-            <div class="flex justify-center gap-6">
+            <h2 class="text-6xl md:text-7xl font-light text-center mb-24 text-apple-gray-900 dark:text-white tracking-tight reveal">Get In Touch</h2>
+            <div class="flex justify-center gap-6 reveal reveal-delay-1">
                 <a href="https://www.instagram.com/rack7m/" class="apple-card w-16 h-16 flex items-center justify-center text-apple-gray-600 dark:text-apple-gray-400 hover:text-pink-500 dark:hover:text-pink-400 transition-all">
                     <i class="fab fa-instagram text-2xl"></i>
                 </a>
