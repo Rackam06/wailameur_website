@@ -647,6 +647,37 @@
             }
         }
 
+        /* Apple-style mobile menu animation */
+        .mobile-menu-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .mobile-menu-container.open {
+            max-height: 300px;
+        }
+
+        .mobile-menu-content {
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+        }
+
+        .mobile-menu-container.open .mobile-menu-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Mobile menu button animation */
+        #mobile-menu-button {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #mobile-menu-button.active {
+            transform: rotate(90deg);
+        }
+
         /* Parallax scroll effect for hero */
         .parallax-bg {
             will-change: transform;
@@ -678,8 +709,8 @@
                 </button>
             </div>
             <!-- Mobile Menu -->
-            <div class="md:hidden hidden" id="mobile-menu">
-                <div class="flex flex-col space-y-4 mt-4 pb-4 border-t border-gray-100 dark:border-slate-700 pt-4">
+            <div class="md:hidden mobile-menu-container" id="mobile-menu">
+                <div class="mobile-menu-content flex flex-col space-y-4 mt-4 pb-4 border-t border-gray-100 dark:border-slate-700 pt-4">
                     <a href="#home" class="text-gray-600 dark:text-slate-200 hover:text-primary dark:hover:text-blue-400 transition-colors font-medium">Home</a>
                     <a href="#about" class="text-gray-600 dark:text-slate-200 hover:text-primary dark:hover:text-emerald-400 transition-colors font-medium">About</a>
                     <a href="#projects" class="text-gray-600 dark:text-slate-200 hover:text-primary dark:hover:text-violet-400 transition-colors font-medium">Projects</a>
@@ -715,7 +746,7 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-32 bg-apple-gray-100 dark:bg-black">
+    <section id="about" class="py-32 bg-apple-gray-100 dark:bg-apple-gray-900">
         <div class="container mx-auto px-6">
             <h2 class="text-6xl md:text-7xl font-light text-center mb-24 text-apple-gray-900 dark:text-white tracking-tight reveal">About Me</h2>
             <div class="max-w-5xl mx-auto">
@@ -752,7 +783,7 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="py-32 bg-white dark:bg-apple-gray-900">
+    <section id="projects" class="py-32 bg-white dark:bg-apple-gray-800">
         <div class="container mx-auto px-6">
             <h2 class="text-6xl md:text-7xl font-light text-center mb-24 text-apple-gray-900 dark:text-white tracking-tight reveal">My Projects</h2>
             <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
@@ -813,7 +844,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-32 bg-apple-gray-50 dark:bg-black">
+    <section id="contact" class="py-32 bg-apple-gray-50 dark:bg-apple-gray-900">
         <div class="container mx-auto px-6">
             <h2 class="text-6xl md:text-7xl font-light text-center mb-24 text-apple-gray-900 dark:text-white tracking-tight reveal">Get In Touch</h2>
             <div class="flex justify-center gap-6 reveal reveal-delay-1">

@@ -45,13 +45,32 @@ document.addEventListener('DOMContentLoaded', function() {
         if (toggleBtn) toggleBtn.addEventListener('click', toggleTheme);
         if (toggleBtnMobile) toggleBtnMobile.addEventListener('click', toggleTheme);
 
-        // Mobile menu toggle
+        // Apple-style mobile menu toggle
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
 
         if (mobileMenuButton && mobileMenu) {
             mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
+                const isOpen = mobileMenu.classList.contains('open');
+                
+                if (isOpen) {
+                    // Close menu
+                    mobileMenu.classList.remove('open');
+                    mobileMenuButton.classList.remove('active');
+                } else {
+                    // Open menu
+                    mobileMenu.classList.add('open');
+                    mobileMenuButton.classList.add('active');
+                }
+            });
+
+            // Close menu when clicking on links
+            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('open');
+                    mobileMenuButton.classList.remove('active');
+                });
             });
         }
 
