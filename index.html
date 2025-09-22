@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wail Ameur</title>
     <link rel="icon" type="image/x-icon" href="images/signature2_transparent.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=SF+Pro+Text:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -15,69 +15,121 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        'inter': ['Inter', 'sans-serif'],
+                        'sf-pro': ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'sans-serif'],
+                        'sf-text': ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'Helvetica Neue', 'sans-serif'],
                     },
                     colors: {
                         primary: {
-                            DEFAULT: '#2C3E50',
-                            light: '#34495E',
-                            dark: '#1A252F'
+                            DEFAULT: '#007AFF', // Apple Blue
+                            light: '#5AC8FA',
+                            dark: '#0051D5'
+                        },
+                        apple: {
+                            gray: {
+                                50: '#FAFAFA',
+                                100: '#F5F5F7',
+                                200: '#E5E5E7',
+                                300: '#D2D2D7',
+                                400: '#A1A1A6',
+                                500: '#86868B',
+                                600: '#6D6D70',
+                                700: '#515154',
+                                800: '#3A3A3C',
+                                900: '#1C1C1E'
+                            }
                         }
+                    },
+                    fontSize: {
+                        '17': ['17px', { lineHeight: '1.23', letterSpacing: '-0.022em' }],
+                    },
+                    borderRadius: {
+                        'apple': '18px',
+                        'apple-lg': '24px',
+                        'apple-xl': '32px',
+                    },
+                    boxShadow: {
+                        'apple': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                        'apple-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03)',
+                        'apple-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)',
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Light/Dark theme custom tweaks beyond Tailwind */
+        /* Apple-inspired design system */
         html {
             scroll-behavior: smooth;
+            font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Dark mode color improvements for better contrast */
-        .dark {
-            --primary-accent: #60a5fa; /* blue-400 */
-            --secondary-accent: #34d399; /* emerald-400 */
-            --tertiary-accent: #a78bfa; /* violet-400 */
-            --warning-accent: #fbbf24; /* amber-400 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
         }
 
-        /* Dark-mode specific overrides for custom CSS parts */
-        .dark .project-content {
-            background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.8) 50%, rgba(0,0,0,0) 100%);
+        /* Apple-style glass morphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
         }
+
+        .dark .glass {
+            background: rgba(28, 28, 30, 0.8);
+        }
+
+        /* Apple-style cards */
+        .apple-card {
+            background: #FFFFFF;
+            border-radius: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark .apple-card {
+            background: #1C1C1E;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        }
+
+        .apple-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark .apple-card:hover {
+            box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.4), 0 4px 8px -2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Apple-style photo frame */
         .photo-frame {
-            width: 200px;
-            height: 200px;
+            width: 240px;
+            height: 240px;
             border-radius: 50%;
             overflow: hidden;
             position: relative;
-            background: #f5f5f5;
-            border: 4px solid #2C3E50;
-            box-shadow: 
-                0 0 0 8px rgba(44, 62, 80, 0.1),
-                0 10px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.5s ease;
+            background: #F5F5F7;
+            border: none;
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.04);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .dark .photo-frame {
-            background: #1e293b; /* slate-800 */
-            border-color: var(--primary-accent); /* accent border pops on dark */
-            box-shadow:
-                0 0 0 8px rgba(96, 165, 250, 0.2),
-                0 10px 20px rgba(0, 0, 0, 0.6);
+            background: #2C2C2E;
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.3), 0 4px 8px -2px rgba(0, 0, 0, 0.2);
         }
+
         .photo-frame:hover {
-            transform: translateY(-5px);
-            border-color: #3498db;
-            box-shadow: 
-                0 0 0 8px rgba(52, 152, 219, 0.2),
-                0 15px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.12), 0 8px 16px -4px rgba(0, 0, 0, 0.06);
         }
+
         .dark .photo-frame:hover {
-            box-shadow:
-                0 0 0 8px rgba(96, 165, 250, 0.3),
-                0 20px 30px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.4), 0 8px 16px -4px rgba(0, 0, 0, 0.25);
         }
+
+        /* Keep the mouse animation components */
         .splash-container {
             position: absolute;
             top: 0;
@@ -232,89 +284,167 @@
             backdrop-filter: blur(4px);
         }
 
-        .development-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 152, 0, 0.85);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 600;
-            z-index: 10;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transform: rotate(5deg);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(4px);
-        }
-
-        .alpha-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(40, 192, 238, 0.85);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 600;
-            z-index: 10;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transform: rotate(5deg);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(4px);
-        }
-
-        .finished-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(46, 204, 113, 0.85);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 600;
-            z-index: 10;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transform: rotate(5deg);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(4px);
-        }
-
-        /* end theme customizations */
-        
-        /* Dark mode gradient text enhancement */
-        .dark .gradient-text {
-            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent), var(--tertiary-accent), var(--primary-accent));
+        /* Apple-style gradient text */
+        .gradient-text {
+            background: linear-gradient(90deg, #007AFF, #5AC8FA, #30D158, #007AFF);
             background-size: 300% auto;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradient 4s linear infinite;
+            animation: gradient 6s ease-in-out infinite;
+        }
+
+        @keyframes gradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Apple-style buttons */
+        .apple-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 32px;
+            padding: 16px 32px;
+            font-weight: 500;
+            font-size: 17px;
+            line-height: 1.2;
+            letter-spacing: -0.022em;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0, 122, 255, 0.3);
+        }
+
+        .apple-button:hover {
+            background: #0051D5;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
+        }
+
+        /* Apple-style project cards */
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            height: 320px;
+            border-radius: 24px;
+            background: #FFFFFF;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark .project-card {
+            background: #1C1C1E;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark .project-card:hover {
+            box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.4), 0 4px 8px -2px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 100%);
+            color: white;
+            padding: 24px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .project-card:hover .project-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        /* Apple-style badges */
+        .development-badge, .alpha-badge, .finished-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            z-index: 10;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .development-badge {
+            background: rgba(255, 149, 0, 0.9);
+            color: white;
+        }
+
+        .alpha-badge {
+            background: rgba(0, 122, 255, 0.9);
+            color: white;
+        }
+
+        .finished-badge {
+            background: rgba(48, 209, 88, 0.9);
+            color: white;
+        }
+
+        /* Apple-style tag */
+        .tag {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .min-h-screen-nav {
+            min-height: calc(100vh - 4rem);
         }
     </style>
 </head>
-<body class="font-inter bg-gray-50 dark:bg-gray-900 dark:text-gray-100">
-    <!-- Previous body content remains exactly the same -->
+<body class="font-sf-pro bg-apple-gray-50 dark:bg-apple-gray-900 text-apple-gray-900 dark:text-apple-gray-100">
     <!-- Header/Navigation -->
-    <header class="fixed w-full bg-white/90 dark:bg-slate-800/95 backdrop-blur-sm shadow-sm z-50 border-b border-gray-100 dark:border-slate-700">
-        <nav class="container mx-auto px-6 py-4">
+    <header class="fixed w-full glass border-b border-apple-gray-200/30 dark:border-apple-gray-700/30 z-50">
+        <nav class="container mx-auto px-6 py-3">
             <div class="flex justify-between items-center">
-                <a href="#" class="text-2xl font-bold text-primary dark:text-blue-400">
-                    <img src="images/signature2_transparent.png" alt="Wail Ameur Signature" class="h-8 w-auto">
+                <a href="#" class="text-xl font-semibold text-primary">
+                    <img src="images/signature2_transparent.png" alt="Wail Ameur Signature" class="h-7 w-auto">
                 </a>
-                <div class="hidden md:flex items-center space-x-6">
-                    <a href="#home" class="text-gray-600 dark:text-slate-200 hover:text-primary dark:hover:text-blue-400 transition-colors font-medium">Home</a>
-                    <a href="#about" class="text-gray-600 dark:text-slate-200 hover:text-primary dark:hover:text-emerald-400 transition-colors font-medium">About</a>
-                    <a href="#projects" class="text-gray-600 dark:text-slate-200 hover:text-primary dark:hover:text-violet-400 transition-colors font-medium">Projects</a>
-                    <a href="#contact" class="text-gray-600 dark:text-slate-200 hover:text-primary dark:hover:text-amber-400 transition-colors font-medium">Contact</a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-apple-gray-600 dark:text-apple-gray-400 hover:text-primary dark:hover:text-primary transition-colors text-17 font-medium">Home</a>
+                    <a href="#about" class="text-apple-gray-600 dark:text-apple-gray-400 hover:text-primary dark:hover:text-primary transition-colors text-17 font-medium">About</a>
+                    <a href="#projects" class="text-apple-gray-600 dark:text-apple-gray-400 hover:text-primary dark:hover:text-primary transition-colors text-17 font-medium">Projects</a>
+                    <a href="#contact" class="text-apple-gray-600 dark:text-apple-gray-400 hover:text-primary dark:hover:text-primary transition-colors text-17 font-medium">Contact</a>
                     <!-- Theme toggle -->
-                    <button id="theme-toggle" class="ml-2 rounded-full border border-gray-200 dark:border-slate-600 p-2 text-gray-600 dark:text-slate-200 hover:text-primary dark:hover:text-blue-400 hover:border-primary/50 dark:hover:border-blue-400/50 transition-colors bg-white/50 dark:bg-slate-700/50" aria-label="Toggle dark mode">
-                        <i class="fas fa-moon hidden" id="icon-moon"></i>
-                        <i class="fas fa-sun hidden" id="icon-sun"></i>
+                    <button id="theme-toggle" class="ml-4 rounded-full border border-apple-gray-300 dark:border-apple-gray-600 p-2.5 text-apple-gray-600 dark:text-apple-gray-400 hover:text-primary dark:hover:text-primary hover:border-primary/50 transition-colors bg-white/60 dark:bg-apple-gray-800/60" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon hidden text-sm" id="icon-moon"></i>
+                        <i class="fas fa-sun hidden text-sm" id="icon-sun"></i>
                     </button>
                 </div>
-                <button class="md:hidden text-gray-600 dark:text-slate-200" id="mobile-menu-button">
-                    <i class="fas fa-bars text-2xl"></i>
+                <button class="md:hidden text-apple-gray-600 dark:text-apple-gray-400" id="mobile-menu-button">
+                    <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
             <!-- Mobile Menu -->
@@ -331,56 +461,56 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen-nav pt-24 flex items-center relative bg-gradient-to-br from-gray-50 to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-900">
+    <section id="home" class="min-h-screen-nav pt-20 flex items-center relative bg-gradient-to-br from-apple-gray-50 via-white to-blue-50 dark:from-apple-gray-900 dark:via-apple-gray-800 dark:to-indigo-950">
         <div class="splash-container"></div>
         <div class="container mx-auto px-6 relative z-10">
-            <div class="flex flex-col items-center text-center">
-                <div class="photo-frame mb-8">
+            <div class="flex flex-col items-center text-center max-w-4xl mx-auto">
+                <div class="photo-frame mb-12">
                     <div class="photo-placeholder">
                         <img src="images/wailameur_portrait.png" alt="Wail Ameur" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                 </div>
-                <h1 class="text-5xl md:text-7xl font-bold text-gray-900 dark:text-slate-100 mb-6">
-                    Hello, I'm <span class="gradient-text">Wail Ameur</span>
+                <h1 class="text-6xl md:text-8xl font-light text-apple-gray-900 dark:text-white mb-6 tracking-tight leading-none">
+                    Hello, I'm <span class="gradient-text font-medium">Wail Ameur</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-600 dark:text-slate-300 mb-12 max-w-3xl leading-relaxed">
-                    A passionate with a strong will to build innovative products.
+                <p class="text-xl md:text-2xl text-apple-gray-600 dark:text-apple-gray-400 mb-16 max-w-3xl leading-relaxed font-normal">
+                    A passionate Data Science & Fintech MSc student with a strong will to build innovative products.
                 </p>
-                <a href="attachments/Wail_Ameur_Resume.pdf" download="Wail_Ameur_Resume.pdf" class="group bg-primary dark:bg-gradient-to-r dark:from-blue-500 dark:to-indigo-600 text-white px-8 py-4 rounded-full hover:bg-primary-dark dark:hover:from-blue-600 dark:hover:to-indigo-700 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-blue-500/25">>
+                <a href="attachments/Wail_Ameur_Resume.pdf" download="Wail_Ameur_Resume.pdf" class="apple-button inline-flex items-center gap-3">
                     Download Resume
-                    <i class="fas fa-download ml-2 group-hover:translate-y-1 transition-transform"></i>
+                    <i class="fas fa-download text-sm"></i>
                 </a>
             </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-20 bg-white dark:bg-slate-800">
+    <section id="about" class="py-32 bg-apple-gray-100 dark:bg-apple-gray-900">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-16 text-primary dark:text-emerald-400">About Me</h2>
-            <div class="max-w-4xl mx-auto">
-                <div class="grid md:grid-cols-2 gap-12">
-                    <div class="space-y-6 p-6 rounded-2xl bg-gray-50 dark:bg-slate-700/50 border border-gray-100 dark:border-slate-600">
-                        <h3 class="text-2xl font-semibold text-primary dark:text-emerald-400">Background</h3>
-                        <p class="text-gray-600 dark:text-slate-200 text-lg leading-relaxed">
+            <h2 class="text-6xl md:text-7xl font-light text-center mb-24 text-apple-gray-900 dark:text-white tracking-tight">About Me</h2>
+            <div class="max-w-5xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="apple-card p-8 space-y-6">
+                        <h3 class="text-3xl font-medium text-apple-gray-900 dark:text-white">Background</h3>
+                        <p class="text-apple-gray-600 dark:text-apple-gray-400 text-lg leading-relaxed font-normal">
                             At 21 years old, I'm pursuing my Master's in Data Science and Fintech, building upon my strong foundation in Computer Sciences. My passion lies in creating innovative AI-powered solutions.
                         </p>
                     </div>
-                    <div class="space-y-6 p-6 rounded-2xl bg-gray-50 dark:bg-slate-700/50 border border-gray-100 dark:border-slate-600">
-                        <h3 class="text-2xl font-semibold text-primary dark:text-blue-400">Education</h3>
-                        <ul class="space-y-4 text-gray-600 dark:text-slate-200 text-lg">
-                            <li class="flex items-start">
-                                <i class="fas fa-graduation-cap mt-1 mr-3 text-primary dark:text-emerald-400"></i>
+                    <div class="apple-card p-8 space-y-6">
+                        <h3 class="text-3xl font-medium text-apple-gray-900 dark:text-white">Education</h3>
+                        <ul class="space-y-6 text-apple-gray-600 dark:text-apple-gray-400 text-lg">
+                            <li class="flex items-start gap-4">
+                                <div class="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
                                 <div>
-                                    <span class="font-medium block">Double MSc in Data Science & Fintech</span>
-                                    Currently enrolled - Second Year
+                                    <span class="font-medium block text-apple-gray-900 dark:text-white">Double MSc in Data Science & Fintech</span>
+                                    <span class="text-apple-gray-500 dark:text-apple-gray-500">Currently enrolled - Second Year</span>
                                 </div>
                             </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-graduation-cap mt-1 mr-3 text-primary dark:text-blue-400"></i>
+                            <li class="flex items-start gap-4">
+                                <div class="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
                                 <div>
-                                    <span class="font-medium block">Bachelor's in Computer Sciences</span>
-                                    Successfully completed
+                                    <span class="font-medium block text-apple-gray-900 dark:text-white">Bachelor's in Computer Sciences</span>
+                                    <span class="text-apple-gray-500 dark:text-apple-gray-500">Successfully completed</span>
                                 </div>
                             </li>
                         </ul>
@@ -391,9 +521,9 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="py-20 bg-gray-50 dark:bg-slate-900">
+    <section id="projects" class="py-32 bg-white dark:bg-apple-gray-900">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-16 text-primary dark:text-violet-400">My Projects</h2>
+            <h2 class="text-6xl md:text-7xl font-light text-center mb-24 text-apple-gray-900 dark:text-white tracking-tight">My Projects</h2>
             <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
                 <!-- DraftsLab Project -->
                 <div class="project-card">
@@ -451,30 +581,30 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-white dark:bg-slate-800">
+    <section id="contact" class="py-32 bg-apple-gray-100 dark:bg-apple-gray-900">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-16 text-primary dark:text-amber-400">Get In Touch</h2>
-            <div class="flex justify-center space-x-8">
-                <a href="https://www.instagram.com/rack7m/" class="text-gray-600 dark:text-slate-300 hover:text-pink-500 dark:hover:text-pink-400 transition-all transform hover:scale-110 p-4 rounded-full hover:bg-pink-50 dark:hover:bg-pink-900/20">
-                    <i class="fab fa-instagram text-4xl"></i>
+            <h2 class="text-6xl md:text-7xl font-light text-center mb-24 text-apple-gray-900 dark:text-white tracking-tight">Get In Touch</h2>
+            <div class="flex justify-center gap-6">
+                <a href="https://www.instagram.com/rack7m/" class="apple-card w-16 h-16 flex items-center justify-center text-apple-gray-600 dark:text-apple-gray-400 hover:text-pink-500 dark:hover:text-pink-400 transition-all">
+                    <i class="fab fa-instagram text-2xl"></i>
                 </a>
-                <a href="https://github.com/Rackam06" class="text-gray-600 dark:text-slate-300 hover:text-gray-800 dark:hover:text-white transition-all transform hover:scale-110 p-4 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700">
-                    <i class="fab fa-github text-4xl"></i>
+                <a href="https://github.com/Rackam06" class="apple-card w-16 h-16 flex items-center justify-center text-apple-gray-600 dark:text-apple-gray-400 hover:text-apple-gray-900 dark:hover:text-white transition-all">
+                    <i class="fab fa-github text-2xl"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/wail-ameur" class="text-gray-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all transform hover:scale-110 p-4 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/20">
-                    <i class="fab fa-linkedin text-4xl"></i>
+                <a href="https://www.linkedin.com/in/wail-ameur" class="apple-card w-16 h-16 flex items-center justify-center text-apple-gray-600 dark:text-apple-gray-400 hover:text-primary transition-all">
+                    <i class="fab fa-linkedin text-2xl"></i>
                 </a>
-                <a href="mailto:wailhakam06@gmail.com" class="text-gray-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all transform hover:scale-110 p-4 rounded-full hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
-                    <i class="fas fa-envelope text-4xl"></i>
+                <a href="mailto:wailhakam06@gmail.com" class="apple-card w-16 h-16 flex items-center justify-center text-apple-gray-600 dark:text-apple-gray-400 hover:text-emerald-500 transition-all">
+                    <i class="fas fa-envelope text-2xl"></i>
                 </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-primary-dark dark:bg-slate-950 text-white dark:text-slate-200 py-8 border-t dark:border-slate-700">
+    <footer class="py-12 bg-apple-gray-100 dark:bg-apple-gray-900 border-t border-apple-gray-200/30 dark:border-apple-gray-700/30">
         <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2025 Wail Ameur. All rights reserved.</p>
+            <p class="text-apple-gray-500 dark:text-apple-gray-500 font-normal">&copy; 2025 Wail Ameur. All rights reserved.</p>
         </div>
     </footer>
 
