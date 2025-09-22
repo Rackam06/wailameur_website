@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        // Enable class-based dark mode so we can toggle it at runtime
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -27,6 +29,47 @@
         }
     </script>
     <style>
+        /* Light/Dark theme custom tweaks beyond Tailwind */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Dark-mode specific overrides for custom CSS parts */
+        .dark .project-content {
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0) 100%);
+        }
+        .photo-frame {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            background: #f5f5f5;
+            border: 4px solid #2C3E50;
+            box-shadow: 
+                0 0 0 8px rgba(44, 62, 80, 0.1),
+                0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+        }
+        .dark .photo-frame {
+            background: #0f172a; /* slate-900 */
+            border-color: #3498db; /* accent border pops on dark */
+            box-shadow:
+                0 0 0 8px rgba(52, 152, 219, 0.15),
+                0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        .photo-frame:hover {
+            transform: translateY(-5px);
+            border-color: #3498db;
+            box-shadow: 
+                0 0 0 8px rgba(52, 152, 219, 0.2),
+                0 15px 25px rgba(0, 0, 0, 0.2);
+        }
+        .dark .photo-frame:hover {
+            box-shadow:
+                0 0 0 8px rgba(52, 152, 219, 0.25),
+                0 20px 30px rgba(0, 0, 0, 0.5);
+        }
         .splash-container {
             position: absolute;
             top: 0;
@@ -90,27 +133,7 @@
             }
         }
 
-        .photo-frame {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            overflow: hidden;
-            position: relative;
-            background: #f5f5f5;
-            border: 4px solid #2C3E50;
-            box-shadow: 
-                0 0 0 8px rgba(44, 62, 80, 0.1),
-                0 10px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.5s ease;
-        }
-
-        .photo-frame:hover {
-            transform: translateY(-5px);
-            border-color: #3498db;
-            box-shadow: 
-                0 0 0 8px rgba(52, 152, 219, 0.2),
-                0 15px 25px rgba(0, 0, 0, 0.2);
-        }
+        /* existing styles continue */
 
         .photo-frame .photo-placeholder {
             width: 100%;
@@ -249,25 +272,28 @@
             backdrop-filter: blur(4px);
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        /* end theme customizations */
     </style>
 </head>
-<body class="font-inter bg-gray-50">
+<body class="font-inter bg-gray-50 dark:bg-gray-900 dark:text-gray-100">
     <!-- Previous body content remains exactly the same -->
     <!-- Header/Navigation -->
-    <header class="fixed w-full bg-white/80 backdrop-blur-sm shadow-sm z-50">
+    <header class="fixed w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-sm z-50">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
                 <a href="#" class="text-2xl font-bold text-primary">
                     <img src="images/signature2_transparent.png" alt="Wail Ameur Signature" class="h-8 w-auto">
                 </a>
-                <div class="hidden md:flex space-x-8">
-                    <a href="#home" class="text-gray-600 hover:text-primary transition-colors">Home</a>
-                    <a href="#about" class="text-gray-600 hover:text-primary transition-colors">About</a>
-                    <a href="#projects" class="text-gray-600 hover:text-primary transition-colors">Projects</a>
-                    <a href="#contact" class="text-gray-600 hover:text-primary transition-colors">Contact</a>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#home" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-colors">Home</a>
+                    <a href="#about" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-colors">About</a>
+                    <a href="#projects" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-colors">Projects</a>
+                    <a href="#contact" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-colors">Contact</a>
+                    <!-- Theme toggle -->
+                    <button id="theme-toggle" class="ml-2 rounded-full border border-gray-200 dark:border-gray-700 p-2 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white hover:border-primary/50 transition-colors" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon hidden" id="icon-moon"></i>
+                        <i class="fas fa-sun hidden" id="icon-sun"></i>
+                    </button>
                 </div>
                 <button class="md:hidden text-gray-600" id="mobile-menu-button">
                     <i class="fas fa-bars text-2xl"></i>
@@ -276,17 +302,18 @@
             <!-- Mobile Menu -->
             <div class="md:hidden hidden" id="mobile-menu">
                 <div class="flex flex-col space-y-4 mt-4 pb-4">
-                    <a href="#home" class="text-gray-600 hover:text-primary transition-colors">Home</a>
-                    <a href="#about" class="text-gray-600 hover:text-primary transition-colors">About</a>
-                    <a href="#projects" class="text-gray-600 hover:text-primary transition-colors">Projects</a>
-                    <a href="#contact" class="text-gray-600 hover:text-primary transition-colors">Contact</a>
+                    <a href="#home" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-colors">Home</a>
+                    <a href="#about" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-colors">About</a>
+                    <a href="#projects" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-colors">Projects</a>
+                    <a href="#contact" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-colors">Contact</a>
+                    <button id="theme-toggle-mobile" class="w-max rounded-full border border-gray-200 dark:border-gray-700 px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-colors">Toggle Dark Mode</button>
                 </div>
             </div>
         </nav>
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen-nav pt-24 flex items-center relative bg-gradient-to-br from-gray-50 to-blue-50">
+    <section id="home" class="min-h-screen-nav pt-24 flex items-center relative bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
         <div class="splash-container"></div>
         <div class="container mx-auto px-6 relative z-10">
             <div class="flex flex-col items-center text-center">
@@ -295,13 +322,13 @@
                         <img src="images/wailameur_portrait.png" alt="Wail Ameur" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                 </div>
-                <h1 class="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
+                <h1 class="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6">
                     Hello, I'm <span class="gradient-text">Wail Ameur</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl leading-relaxed">
+                <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl leading-relaxed">
                     A passionate Data Science & Fintech Msc student with a strong will to build innovative products.
                 </p>
-                <a href="attachments/WailAmeur_Resume_1.0.pdf" download="WailAmeur_Resume.pdf" class="group bg-primary text-white px-8 py-4 rounded-full hover:bg-primary-dark transition-all transform hover:scale-105 shadow-lg hover:shadow-xl">
+                <a href="attachments/Wail_Ameur_Resume.pdf" download="Wail_Ameur_Resume.pdf" class="group bg-primary text-white px-8 py-4 rounded-full hover:bg-primary-dark transition-all transform hover:scale-105 shadow-lg hover:shadow-xl">
                     Download Resume
                     <i class="fas fa-download ml-2 group-hover:translate-y-1 transition-transform"></i>
                 </a>
@@ -310,29 +337,29 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-20 bg-white">
+    <section id="about" class="py-20 bg-white dark:bg-gray-900">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-16 text-primary">About Me</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-primary dark:text-white">About Me</h2>
             <div class="max-w-4xl mx-auto">
                 <div class="grid md:grid-cols-2 gap-12">
                     <div class="space-y-6">
-                        <h3 class="text-2xl font-semibold text-primary">Background</h3>
-                        <p class="text-gray-600 text-lg leading-relaxed">
+                        <h3 class="text-2xl font-semibold text-primary dark:text-white">Background</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
                             At 21 years old, I'm pursuing my Master's in Data Science and Fintech, building upon my strong foundation in Computer Sciences. My passion lies in creating innovative AI-powered solutions.
                         </p>
                     </div>
                     <div class="space-y-6">
-                        <h3 class="text-2xl font-semibold text-primary">Education</h3>
-                        <ul class="space-y-4 text-gray-600 text-lg">
+                        <h3 class="text-2xl font-semibold text-primary dark:text-white">Education</h3>
+                        <ul class="space-y-4 text-gray-600 dark:text-gray-300 text-lg">
                             <li class="flex items-start">
-                                <i class="fas fa-graduation-cap mt-1 mr-3 text-primary"></i>
+                                <i class="fas fa-graduation-cap mt-1 mr-3 text-primary dark:text-blue-300"></i>
                                 <div>
                                     <span class="font-medium block">Double Msc in Data Science & Fintech</span>
                                     Currently enrolled - Second Year
                                 </div>
                             </li>
                             <li class="flex items-start">
-                                <i class="fas fa-graduation-cap mt-1 mr-3 text-primary"></i>
+                                <i class="fas fa-graduation-cap mt-1 mr-3 text-primary dark:text-blue-300"></i>
                                 <div>
                                     <span class="font-medium block">Bachelor's in Computer Sciences</span>
                                     Successfully completed
@@ -346,9 +373,9 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="py-20 bg-gray-50">
+    <section id="projects" class="py-20 bg-gray-50 dark:bg-gray-900">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-16 text-primary">My Projects</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-primary dark:text-white">My Projects</h2>
             <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
                 <!-- DraftsLab Project -->
                 <div class="project-card">
@@ -406,17 +433,20 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-white">
+    <section id="contact" class="py-20 bg-white dark:bg-gray-900">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-16 text-primary">Get In Touch</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-primary dark:text-white">Get In Touch</h2>
             <div class="flex justify-center space-x-8">
-                <a href="https://github.com/Rackam06" class="text-gray-600 hover:text-primary transition-all transform hover:scale-110">
+                <a href="https://www.instagram.com/rack7m/" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-all transform hover:scale-110">
+                    <i class="fab fa-instagram text-4xl"></i>
+                </a>
+                <a href="https://github.com/Rackam06" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-all transform hover:scale-110">
                     <i class="fab fa-github text-4xl"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/wail-ameur" class="text-gray-600 hover:text-primary transition-all transform hover:scale-110">
+                <a href="https://www.linkedin.com/in/wail-ameur" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-all transform hover:scale-110">
                     <i class="fab fa-linkedin text-4xl"></i>
                 </a>
-                <a href="mailto:wailhakam06@gmail.com" class="text-gray-600 hover:text-primary transition-all transform hover:scale-110">
+                <a href="mailto:wailhakam06@gmail.com" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-all transform hover:scale-110">
                     <i class="fas fa-envelope text-4xl"></i>
                 </a>
             </div>
@@ -424,7 +454,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-primary-dark text-white py-8">
+    <footer class="bg-primary-dark dark:bg-black text-white py-8">
         <div class="container mx-auto px-6 text-center">
             <p>&copy; 2025 Wail Ameur. All rights reserved.</p>
         </div>

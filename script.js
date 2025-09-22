@@ -1,5 +1,50 @@
 document.addEventListener('DOMContentLoaded', function() {
     try {
+        // Theme: initialize from localStorage or system preference
+        const root = document.documentElement;
+        const getStoredTheme = () => localStorage.getItem('theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+            updateToggleIcons();
+        };
+
+        const initTheme = () => {
+            const saved = getStoredTheme();
+            if (saved) {
+                applyTheme(saved);
+            } else {
+                applyTheme(prefersDark ? 'dark' : 'light');
+            }
+        };
+
+        const toggleTheme = () => {
+            const isDark = root.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateToggleIcons();
+        };
+
+        const updateToggleIcons = () => {
+            const moon = document.getElementById('icon-moon');
+            const sun = document.getElementById('icon-sun');
+            if (!moon || !sun) return;
+            const isDark = root.classList.contains('dark');
+            // Show opposite icon of current theme to indicate action
+            moon.classList.toggle('hidden', isDark); // hide moon on dark
+            sun.classList.toggle('hidden', !isDark); // show sun on dark
+        };
+
+        initTheme();
+        // Wire up toggles (desktop + mobile)
+        const toggleBtn = document.getElementById('theme-toggle');
+        const toggleBtnMobile = document.getElementById('theme-toggle-mobile');
+        if (toggleBtn) toggleBtn.addEventListener('click', toggleTheme);
+        if (toggleBtnMobile) toggleBtnMobile.addEventListener('click', toggleTheme);
+
         // Mobile menu toggle
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -63,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialize nav state
         header.classList.add('nav-visible');
 
-        // Enhanced splash effect with random colors
+        // Enhanced splash effect with random colors (keep this untouched behaviorally)
         const homeSection = document.querySelector('#home');
         if (homeSection) {
             let isInHomeSection = false;
