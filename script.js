@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
             };
 
-            const createShootingStar = (e) => {
+            const createSparkleStars = (e) => {
                 if (!isInHomeSection) return;
 
                 const now = Date.now();
@@ -180,29 +180,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 const movement = smoothMovement(e.clientX, e.clientY);
                 const normalizedSpeed = Math.min(movement.speed, 30) / 30;
 
-                // Create shooting star trail
-                const star = document.createElement('div');
-                star.className = 'shooting-star';
+                // Create sparkle stars around mouse position
+                const starCount = Math.floor(normalizedSpeed * 3) + 1; // 1-4 stars based on speed
                 
-                // Dynamic length based on speed
-                const length = 60 + (normalizedSpeed * 120);
-                const height = 2 + (normalizedSpeed * 2);
-                
-                star.style.width = `${length}px`;
-                star.style.height = `${height}px`;
-                star.style.left = `${x}px`;
-                star.style.top = `${y}px`;
-                
-                // Set angle and distance for animation
-                const angle = movement.angle + (Math.random() * 0.4 - 0.2); // Small random variation
-                const distance = 200 + (normalizedSpeed * 300);
-                
-                star.style.setProperty('--angle', `${angle}rad`);
-                star.style.setProperty('--distance', `${distance}px`);
+                for (let i = 0; i < starCount; i++) {
+                    setTimeout(() => {
+                        const star = document.createElement('div');
+                        star.className = 'sparkle-star';
+                        
+                        // Random position around mouse with small offset
+                        const offsetX = (Math.random() - 0.5) * 40;
+                        const offsetY = (Math.random() - 0.5) * 40;
+                        
+                        star.style.left = `${x + offsetX}px`;
+                        star.style.top = `${y + offsetY}px`;
+                        
+                        starsContainer.appendChild(star);
+                        star.addEventListener('animationend', () => star.remove());
+                    }, i * 100); // Stagger star creation for nice effect
+                }
 
-                starsContainer.appendChild(star);
-
-                // Create comet particles for more dynamic movement
+                // Keep the comet particles as they work well
                 if (normalizedSpeed > 0.15) {
                     const particleCount = Math.min(Math.floor(normalizedSpeed * 4) + 2, 8);
                     for (let i = 0; i < particleCount; i++) {
@@ -210,10 +208,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             const particle = document.createElement('div');
                             particle.className = 'comet-particle';
                             
-                            // Spread particles along the trail
-                            const trailOffset = (i / particleCount) * length * 0.3;
-                            const particleX = x - Math.cos(angle) * trailOffset + (Math.random() * 20 - 10);
-                            const particleY = y - Math.sin(angle) * trailOffset + (Math.random() * 20 - 10);
+                            // Spread particles around mouse position
+                            const particleX = x + (Math.random() * 60 - 30);
+                            const particleY = y + (Math.random() * 60 - 30);
                             
                             particle.style.left = `${particleX}px`;
                             particle.style.top = `${particleY}px`;
@@ -229,9 +226,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         }, i * 50); // Stagger particle creation
                     }
                 }
-
-                // Cleanup star trail
-                star.addEventListener('animationend', () => star.remove());
 
                 // Update position tracking
                 lastMouseX = e.clientX;
@@ -256,51 +250,49 @@ document.addEventListener('DOMContentLoaded', function() {
                     cancelAnimationFrame(animationFrame);
                 }
                 animationFrame = requestAnimationFrame(() => {
-                    createShootingStar(e);
+                    createSparkleStars(e);
                 });
             });
 
-            // Click effect - create a burst of shooting stars
+            // Click effect - create a burst of sparkle stars
             homeSection.addEventListener('click', (e) => {
                 const rect = homeSection.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
 
-                // Create multiple shooting stars in different directions
-                for (let i = 0; i < 8; i++) {
+                // Create multiple sparkle stars in a burst pattern
+                for (let i = 0; i < 12; i++) {
                     setTimeout(() => {
                         const star = document.createElement('div');
-                        star.className = 'shooting-star';
+                        star.className = 'sparkle-star';
                         
-                        const angle = (i / 8) * Math.PI * 2 + (Math.random() * 0.5 - 0.25);
-                        const length = 80 + Math.random() * 60;
-                        const distance = 250 + Math.random() * 200;
+                        // Create stars in expanding circle
+                        const angle = (i / 12) * Math.PI * 2;
+                        const radius = 30 + Math.random() * 60;
+                        const starX = x + Math.cos(angle) * radius;
+                        const starY = y + Math.sin(angle) * radius;
                         
-                        star.style.width = `${length}px`;
-                        star.style.height = '3px';
-                        star.style.left = `${x}px`;
-                        star.style.top = `${y}px`;
-                        star.style.setProperty('--angle', `${angle}rad`);
-                        star.style.setProperty('--distance', `${distance}px`);
+                        star.style.left = `${starX}px`;
+                        star.style.top = `${starY}px`;
                         
                         starsContainer.appendChild(star);
                         star.addEventListener('animationend', () => star.remove());
 
                         // Add particles for each star
-                        for (let j = 0; j < 3; j++) {
+                        for (let j = 0; j < 2; j++) {
                             setTimeout(() => {
                                 const particle = document.createElement('div');
                                 particle.className = 'comet-particle';
-                                particle.style.left = `${x + Math.random() * 20 - 10}px`;
-                                particle.style.top = `${y + Math.random() * 20 - 10}px`;
-                                particle.style.setProperty('--px', Math.cos(angle) * 0.8);
-                                particle.style.setProperty('--py', Math.sin(angle) * 0.8);
+                                particle.style.left = `${starX + Math.random() * 20 - 10}px`;
+                                particle.style.top = `${starY + Math.random() * 20 - 10}px`;
+                                particle.style.setProperty('--px', Math.cos(angle) * 0.5);
+                                particle.style.setProperty('--py', Math.sin(angle) * 0.5);
                                 
                                 starsContainer.appendChild(particle);
                                 particle.addEventListener('animationend', () => particle.remove());
-                            }, j * 50);
+                            }, j * 100);
                         }
-                    }, i * 80);
+                    }, i * 60);
                 }
             });
         }

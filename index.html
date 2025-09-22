@@ -176,48 +176,54 @@
             50% { opacity: 1; }
         }
 
-        /* Shooting star trails */
-        .shooting-star {
+        /* Yellow sparkle stars */
+        .sparkle-star {
             position: absolute;
-            background: linear-gradient(90deg, 
-                rgba(59, 130, 246, 0) 0%,
-                rgba(59, 130, 246, 0.4) 20%,
-                rgba(147, 197, 253, 0.8) 60%,
-                rgba(255, 255, 255, 1) 100%
-            );
-            border-radius: 2px;
+            width: 12px;
+            height: 12px;
             pointer-events: none;
-            animation: shooting-star 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-            box-shadow: 
-                0 0 8px rgba(59, 130, 246, 0.6),
-                0 0 16px rgba(147, 197, 253, 0.4),
-                0 0 24px rgba(255, 255, 255, 0.3);
+            animation: sparkle-star 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
-        .dark .shooting-star {
-            background: linear-gradient(90deg, 
-                rgba(59, 130, 246, 0) 0%,
-                rgba(59, 130, 246, 0.6) 20%,
-                rgba(147, 197, 253, 0.9) 60%,
-                rgba(255, 255, 255, 1) 100%
-            );
-            box-shadow: 
-                0 0 12px rgba(59, 130, 246, 0.8),
-                0 0 24px rgba(147, 197, 253, 0.6),
-                0 0 36px rgba(255, 255, 255, 0.4);
+        .sparkle-star::before {
+            content: '✦';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            color: #fbbf24;
+            text-shadow: 
+                0 0 8px rgba(251, 191, 36, 0.8),
+                0 0 16px rgba(251, 191, 36, 0.6),
+                0 0 24px rgba(251, 191, 36, 0.4);
+            filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.6));
         }
 
-        @keyframes shooting-star {
+        .dark .sparkle-star::before {
+            color: #fde047;
+            text-shadow: 
+                0 0 12px rgba(253, 224, 71, 0.9),
+                0 0 24px rgba(253, 224, 71, 0.7),
+                0 0 36px rgba(253, 224, 71, 0.5);
+            filter: drop-shadow(0 0 6px rgba(253, 224, 71, 0.8));
+        }
+
+        @keyframes sparkle-star {
             0% {
-                transform: scale(0) rotate(var(--angle));
+                transform: scale(0) rotate(0deg);
                 opacity: 0;
             }
-            10% {
-                transform: scale(1) rotate(var(--angle));
+            20% {
+                transform: scale(1.2) rotate(90deg);
                 opacity: 1;
             }
+            50% {
+                transform: scale(1) rotate(180deg);
+                opacity: 0.8;
+            }
             100% {
-                transform: scale(0.2) rotate(var(--angle)) translateX(var(--distance));
+                transform: scale(0) rotate(360deg);
                 opacity: 0;
             }
         }
