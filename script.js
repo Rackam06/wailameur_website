@@ -1,5 +1,34 @@
+function calculateAge(birthDate) {
+    const today = new Date();
+    const birth = new Date(birthDate);
+
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+
+    return age;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     try {
+        
+        const birthDate = "2003-08-23";
+        const age = calculateAge(birthDate);
+
+        const ageElement = document.getElementById("age");
+        if (ageElement) {
+            ageElement.textContent = age;
+        }
+
+        const yearElement = document.getElementById("current-year");
+        if (yearElement) {
+            yearElement.textContent = new Date().getFullYear();
+        }
+
+
         // Theme: initialize from localStorage or system preference
         const root = document.documentElement;
         const getStoredTheme = () => localStorage.getItem('theme');
