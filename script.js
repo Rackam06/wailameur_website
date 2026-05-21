@@ -1,3 +1,70 @@
+const translations = {
+    en: {
+        nav_home: "Home",
+        nav_about: "About",
+        nav_projects: "Projects",
+        nav_contact: "Contact",
+        hero_prefix: "Hi, I'm ",
+        hero_subtitle: "A passionate Data Science & Fintech MSc student with a strong will to build innovative products.",
+        download_cv: "Download Resume",
+        about_title: "About Me",
+        about_background: "Background",
+        about_text_before: "At ",
+        about_text_after: " years old, I'm pursuing my Master's in Data Science and Fintech, building upon my strong foundation in Computer Sciences. My passion lies in creating innovative solutions.",
+        hero_education: "Education",
+        education_master: "Double MSc in Data Science & Fintech",
+        education_master_status: "Currently enrolled - Second Year",
+        education_bachelor: "Bachelor's in Computer Sciences",
+        education_bachelor_status: "Successfully completed",
+        hero_projects: "My Projects",
+        draftslab_description: "A screenwriting platform designed to streamline the writing process, offering a user-friendly interface and powerful tools for writers.",
+        synapsx_description: "A sophisticated trading website that provides users with powerful tools and insights for making informed trading decisions.",
+        cosmicadventures_description: "An engaging game prototype that takes players on an exciting journey through space, featuring unique gameplay mechanics and immersive experiences.",
+        wondernova_description: "An automated travel engine to help planning of trips.",
+        hero_contact: "Get In Touch",
+        footer_text: "Wail Ameur. All rights reserved."
+    },
+    fr: {
+        nav_home: "Accueil",
+        nav_about: "À propos",
+        nav_projects: "Projets",
+        nav_contact: "Contact",
+        hero_prefix: " ",
+        hero_subtitle: "Étudiant en Master Data Science & Fintech avec une forte volonté de créer des produits innovants.",
+        download_cv: "Télécharger CV",
+        about_title: "À propos de moi",
+        about_background: "Parcours",
+        about_text_before: "À ",
+        about_text_after: " ans, je poursuis un Master en Data Science et Fintech, en m'appuyant sur de solides bases en informatique. Ma passion est de créer des solutions innovantes.",
+        hero_education: "Études",
+        education_master: "Double Master en Data Science et Fintech",
+        education_master_status: "En cours - Deuxième année",
+        education_bachelor: "Licence informatique",
+        education_bachelor_status: "Obtenue en 2024",
+        hero_projects: "Mes projets",
+        draftslab_description: "Une plateforme de scénarisation conçue pour simplifier le processus d'écriture, offrant une interface conviviale et des outils puissants pour les auteurs.",
+        synapsx_description: "Une plateforme de trading sophistiquée offrant des outils et des analyses puissants pour prendre des décisions éclairées.",
+        cosmicadventures_description: "Un prototype de jeu immersif qui emmène les joueurs dans une aventure spatiale excitante avec des mécaniques de gameplay uniques.",
+        wondernova_description: "Un moteur de voyage automatisé pour faciliter la planification des voyages.",
+        hero_contact: "Me contacter",
+        footer_text: "Wail Ameur. Tous droits réservés."
+    }
+};
+
+let currentLang = "en";
+
+function updateLanguage(lang) {
+    document.querySelectorAll("[data-key]").forEach(el => {
+        const key = el.getAttribute("data-key");
+        if (translations[lang][key]) {
+            el.textContent = translations[lang][key];
+        }
+    });
+
+    // Save user preference
+    localStorage.setItem("lang", lang);
+}
+
 function calculateAge(birthDate) {
     const today = new Date();
     const birth = new Date(birthDate);
@@ -15,6 +82,70 @@ function calculateAge(birthDate) {
 document.addEventListener('DOMContentLoaded', function() {
     try {
         
+        // Load saved language
+        const savedLang = localStorage.getItem("lang");
+        if (savedLang) {
+            currentLang = savedLang;
+        } else {
+            const browserLang = navigator.language || navigator.userLanguage;
+            if (browserLang.startsWith("fr")) {
+                currentLang = "fr";
+            } else {
+                currentLang = "en";
+            }
+        }
+
+        // Toggle buttons
+        const langBtn = document.getElementById("lang-toggle");
+        const langBtnMobile = document.getElementById("lang-toggle-mobile");
+        const downloadBtn = document.getElementById("download-btn");
+
+        updateLanguage(currentLang);
+        
+        // Sync UI with current language (without toggling)
+        const label = currentLang === "en" ? "FR" : "EN";
+
+        if (langBtn) langBtn.textContent = label;
+        if (langBtnMobile) langBtnMobile.textContent = label;
+
+        if (downloadBtn) {
+            if (currentLang === "fr") {
+                downloadBtn.href = "attachments/Wail_Ameur_CV.pdf";
+                downloadBtn.download = "Wail_Ameur_CV.pdf";
+            } else {
+                downloadBtn.href = "attachments/Wail_Ameur_Resume.pdf";
+                downloadBtn.download = "Wail_Ameur_Resume.pdf";
+            }
+        }
+        
+        const toggleLang = () => {
+            currentLang = currentLang === "en" ? "fr" : "en";
+            updateLanguage(currentLang);
+
+            const label = currentLang === "en" ? "FR" : "EN";
+
+            if (langBtn) langBtn.textContent = label;
+            if (langBtnMobile) langBtnMobile.textContent = label;
+
+            if (downloadBtn) {
+                if (currentLang === "fr") {
+                    downloadBtn.href = "attachments/Wail_Ameur_CV.pdf";
+                    downloadBtn.download = "Wail_Ameur_CV.pdf";
+                } else {
+                    downloadBtn.href = "attachments/Wail_Ameur_Resume.pdf";
+                    downloadBtn.download = "Wail_Ameur_Resume.pdf";
+                }
+            }
+        };
+
+        // Desktop
+        if (langBtn) langBtn.addEventListener("click", toggleLang);
+
+        // Mobile
+        if (langBtnMobile) langBtnMobile.addEventListener("click", toggleLang);
+
+
+
         const birthDate = "2003-08-23";
         const age = calculateAge(birthDate);
 
@@ -56,15 +187,29 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             updateToggleIcons();
         };
-
+        
         const updateToggleIcons = () => {
+            const isDark = root.classList.contains('dark');
+
+            // Desktop
             const moon = document.getElementById('icon-moon');
             const sun = document.getElementById('icon-sun');
-            if (!moon || !sun) return;
-            const isDark = root.classList.contains('dark');
-            // Show opposite icon of current theme to indicate action
-            moon.classList.toggle('hidden', isDark); // hide moon on dark
-            sun.classList.toggle('hidden', !isDark); // show sun on dark
+
+            // Mobile
+            const moonMobile = document.getElementById('icon-moon-mobile');
+            const sunMobile = document.getElementById('icon-sun-mobile');
+
+            // Desktop icons
+            if (moon && sun) {
+                moon.classList.toggle('hidden', isDark);
+                sun.classList.toggle('hidden', !isDark);
+            }
+
+            // Mobile icons
+            if (moonMobile && sunMobile) {
+                moonMobile.classList.toggle('hidden', isDark);
+                sunMobile.classList.toggle('hidden', !isDark);
+            }
         };
 
         initTheme();
