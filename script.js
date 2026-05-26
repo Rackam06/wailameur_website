@@ -21,6 +21,8 @@ const translations = {
         synapsx_description: "A sophisticated trading website that provides users with powerful tools and insights for making informed trading decisions.",
         cosmicadventures_description: "An engaging game prototype that takes players on an exciting journey through space, featuring unique gameplay mechanics and immersive experiences.",
         wondernova_description: "An automated travel engine to help planning of trips.",
+        stulyzer_description: "A platform to summarize and create study sheets for students.",
+        vetura_description: "A platform that connects veterinarians and pet owners. It helps clinics manage medical records, appointments, and communications, while giving pet owners easy access to their animal's health information.",
         hero_contact: "Get In Touch",
         footer_text: "Wail Ameur. All rights reserved."
     },
@@ -46,6 +48,8 @@ const translations = {
         synapsx_description: "Une plateforme de trading sophistiquée offrant des outils et des analyses puissants pour prendre des décisions éclairées.",
         cosmicadventures_description: "Un prototype de jeu immersif qui emmène les joueurs dans une aventure spatiale excitante avec des mécaniques de gameplay uniques.",
         wondernova_description: "Un moteur de voyage automatisé pour faciliter la planification des voyages.",
+        stulyzer_description: "Une plateforme pour résumer et créer des fiches de révision pour les étudiants.",
+        vetura_description: "Une plateforme qui met en relation vétérinaires et propriétaires d'animaux. Elle aide les cliniques à gérer les dossiers médicaux, les rendez-vous et les communications, tout en offrant aux propriétaires un accès facile aux informations de santé de leurs animaux.",
         hero_contact: "Me contacter",
         footer_text: "Wail Ameur. Tous droits réservés."
     }
